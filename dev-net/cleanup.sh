@@ -10,7 +10,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   NEEDSUDO=0
 fi
 
-COMPOSE=$COMPOSE_ALL
+COMPOSE="-f compose.1org.db-red.yaml"
 CLEAN_CC_IMG=0
 case $# in
   0)

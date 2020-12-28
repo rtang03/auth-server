@@ -1,6 +1,6 @@
 FROM node:12.16.0-alpine
 
-LABEL org.opencontainers.image.source https://github.com/rtang03/fabric-es
+LABEL org.opencontainers.image.source https://github.com/rtang03/auth-server
 
 ENV TIME_ZONE=Asia/Hong_Kong \
     ENV_NAME=production \
@@ -23,8 +23,6 @@ RUN apk add --no-cache postgresql-client \
   && apk del .build-deps
 
 USER node
-
-VOLUME /home/app/logs
 
 WORKDIR /home/app/
 
