@@ -1,3 +1,6 @@
+![Build](https://github.com/rtang03/auth-server/workflows/Build/badge.svg)
+![Create Release](https://github.com/rtang03/auth-server/workflows/Create%20Release/badge.svg)
+
 ## Overview
 
 Boilerplate codes for authentication server of `fabric-es` project. It is intented a sample code for implementing auth-server. 
