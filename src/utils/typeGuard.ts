@@ -12,45 +12,85 @@ import {
   UpdateUserRequest,
 } from '../types';
 
-export const isCreateClientRequest = (input: any): input is CreateClientRequest =>
+export const isCreateClientRequest = (input: {
+  application_name: string;
+  client_secret: string;
+}): input is CreateClientRequest =>
   input?.application_name !== undefined && input?.client_secret !== undefined;
 
-export const isRegisterRequest = (input: any): input is RegisterRequest =>
-  !!input?.username && !!input?.password && !!input?.email;
+export const isRegisterRequest = (input: {
+  username: string;
+  password: string;
+  email: string;
+}): input is RegisterRequest => !!input?.username && !!input?.password && !!input?.email;
 
-export const isAllowAccessResponse = (input: any): input is AllowAccessResponse =>
+export const isAllowAccessResponse = (input: {
+  allow: boolean;
+  client_id: string;
+  scope: string[];
+}): input is AllowAccessResponse =>
   input?.allow !== undefined && input?.client_id !== undefined && input?.scope !== undefined;
 
-export const isAuthenticateResponse = (input: any): input is AuthenticateResponse =>
+export const isAuthenticateResponse = (input: {
+  ok: boolean;
+  authenticated: boolean;
+  user_id: string;
+  username: string;
+  is_admin: boolean;
+}): input is AuthenticateResponse =>
   input?.ok !== undefined &&
   input?.authenticated !== undefined &&
   input?.user_id !== undefined &&
   input?.username !== undefined &&
   input?.is_admin !== undefined;
 
-export const isLoginResponse = (input: any): input is LoginResponse =>
+export const isLoginResponse = (input: {
+  username: string;
+  id: string;
+  access_token: string;
+  token_type: string;
+}): input is LoginResponse =>
   input?.username !== undefined &&
   input?.id !== undefined &&
   input?.access_token !== undefined &&
   input?.token_type !== undefined;
 
-export const isRegisterResponse = (input: any): input is RegisterResponse =>
-  input?.id !== undefined && input?.username !== undefined;
+export const isRegisterResponse = (input: {
+  id: string;
+  username: string;
+}): input is RegisterResponse => input?.id !== undefined && input?.username !== undefined;
 
-export const isCreateClientResponse = (input: any): input is CreateClientResponse =>
+export const isCreateClientResponse = (input: {
+  id: string;
+  application_name: string;
+  ok: boolean;
+}): input is CreateClientResponse =>
   input?.id !== undefined && input?.application_name !== undefined && input?.ok !== undefined;
 
-export const isApikey = (input: any): input is ApiKey =>
+export const isApikey = (input: {
+  id: string;
+  api_key: string;
+  client_id: string;
+}): input is ApiKey =>
   input?.id !== undefined && input?.api_key !== undefined && input?.client_id !== undefined;
 
 // note: || is used, instead of &&
-export const isUpdateUserRequest = (input: any): input is UpdateUserRequest =>
-  input?.username !== undefined || input?.email !== undefined;
+export const isUpdateUserRequest = (input: {
+  username: string;
+  email: string;
+}): input is UpdateUserRequest => input?.username !== undefined || input?.email !== undefined;
 
-export const isUpdateClientRequest = (input: any): input is UpdateClientRequest =>
+export const isUpdateClientRequest = (input: {
+  application_name: string;
+  client_secret;
+}): input is UpdateClientRequest =>
   input?.application_name !== undefined || input?.client_secret !== undefined;
 
-export const isRefreshTokenResponse = (input: any): input is RefreshTokenResponse =>
+export const isRefreshTokenResponse = (input: {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+}): input is RefreshTokenResponse =>
   input?.access_token !== undefined &&
   input?.refresh_token !== undefined &&
   input?.token_type !== undefined;

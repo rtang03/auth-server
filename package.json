@@ -1,16 +1,17 @@
 {
-  "name": "@fabric-es/auth",
+  "name": "auth-server",
   "version": "0.0.1",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "license": "BSD-3-Clause-Clear",
-  "description": "revamped auth server",
+  "description": "auth server for fabric-es project",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com/rtang03/auth-server.git"
   },
   "keywords": [
-    "hyperledger"
+    "oauth",
+    "passport"
   ],
   "author": "Ross Tang",
   "homepage": "https://github.com/rtang03/auth-server",
@@ -18,12 +19,13 @@
     "url": "https://github.com/rtang03/auth-server/issues"
   },
   "scripts": {
-    "build": "yarn clean && tsc",
+    "start": "node ./dist/app.js",
+    "build": "npm run clean && tsc",
     "clean": "rimraf dist && rimraf build",
-    "tsc:prod": "yarn clean && tsc -p ./tsconfig.prod.json",
-    "unit-test:fab": "jest --forceExit --detectOpenHandles unit.test",
+    "tsc:prod": "npm run clean && tsc -p ./tsconfig.prod.json",
+    "unit-test": "jest --forceExit --detectOpenHandles unit.test",
     "lint": "eslint --max-warnings 10 'src/**/*.{js,ts}'",
-    "publish:gh:fabric-es": "npm publish"
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "@godaddy/terminus": "^4.4.1",

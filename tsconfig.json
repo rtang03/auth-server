@@ -3,29 +3,17 @@
     "outDir": "dist",
     "target": "es2018",
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "commonjs",
     "declaration": false,
     "sourceMap": false,
     "types": ["node", "jest"],
-    "lib": ["es2018", "dom", "esnext.asynciterable"],
+    "lib": ["es2017", "dom", "esnext.asynciterable"],
     "rootDir": "src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": false,
-    "noEmit": true,
-    "jsx": "preserve",
-    "strictPropertyInitialization": false
+    "esModuleInterop": true
   },
-  "exclude": ["node_modules"],
-  "typedocOptions": {
-    "mode": "modules",
-    "out": "docs"
-  }
+  "exclude": [
+    "node_modules"
+  ]
 }

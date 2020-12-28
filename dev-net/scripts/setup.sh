@@ -4,7 +4,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-export RELEASE=0.7.1
+export RELEASE=0.0.1
 export IMAGE_TAG=2.2.0
 export CONFIG=./config
 export VOLUME=./volume
@@ -16,8 +16,7 @@ export AUTH_IMAGE=fabric-es/auth-server:${RELEASE}
 export TEST_IMAGE=fabric-es/tester:${RELEASE}
 export PROXY_IMAGE=fabric-es/proxy:${RELEASE}
 export UI_CONTROL_IMAGE=fabric-es/ui-control
-export ROOT_DIR=$CURRENT_DIR/../..
-export CC_IMAGE=ghcr.io/rtang03/eventstore-cc:0.0.3
+export ROOT_DIR=$CURRENT_DIR/..
 
 export LOG_LEVEL=info
 export LOG_TARGET=console
