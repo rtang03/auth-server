@@ -25,7 +25,8 @@
     "tsc:prod": "npm run clean && tsc -p ./tsconfig.prod.json",
     "unit-test": "jest --forceExit --detectOpenHandles unit.test",
     "lint": "eslint --max-warnings 10 'src/**/*.{js,ts}'",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "patch": "npm version patch"
   },
   "dependencies": {
     "@godaddy/terminus": "^4.4.1",
