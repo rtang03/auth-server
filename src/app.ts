@@ -1,6 +1,7 @@
 require('dotenv').config();
-
+import fs from 'fs';
 import http from 'http';
+import https from 'https';
 import process from 'process';
 import util from 'util';
 import terminus from '@godaddy/terminus';
@@ -13,7 +14,19 @@ import { User } from './entity/User';
 import { bootstrapAuthServer, createHttpServer, getLogger } from './utils';
 
 const logger = getLogger({ name: '[auth] app.js' });
-const port = (process.env.PORT || 8080) as number;
+
+const CERT_PATH_KEY = process.env.CERT_PATH_KEY;
+const CERT_PATH_CERT = process.env.CERT_PATH_CERT;
+const AUTH_HOST = (process.env.AUTH_HOST || 'localhost') as string;
+const AUTH_PORT = (process.env.AUTH_PORT || 8080) as number;
+const AUTH_SPORT = (process.env.AUTH_SPORT || 8443) as number;
+
+const httpConfig = {
+  isHttps: CERT_PATH_KEY && CERT_PATH_CERT,
+  port: (CERT_PATH_KEY && CERT_PATH_CERT) ? AUTH_SPORT : AUTH_PORT,
+  url: (CERT_PATH_KEY && CERT_PATH_CERT) ? `https://${AUTH_HOST}:${AUTH_SPORT}` : `http://${AUTH_HOST}:${AUTH_PORT}`,
+};
+
 const ENV = {
   CLIENT_APPLICATION_NAME: process.env.CLIENT_APPLICATION_NAME,
   CLIENT_SECRET: process.env.CLIENT_SECRET,
@@ -139,8 +152,16 @@ const connection = {
     setTimeout(resolve, 5000);
   });
 
+  const httpServer: http.Server | https.Server = httpConfig.isHttps ?
+    https.createServer({
+      key: fs.readFileSync(CERT_PATH_KEY),
+      cert: fs.readFileSync(CERT_PATH_CERT),
+    }, server)
+    :
+    http.createServer(server);
+
   terminus
-    .createTerminus(http.createServer(server), {
+    .createTerminus(httpServer, {
       timeout: 3000,
       logger: console.log,
       signals: ['SIGINT', 'SIGTERM'],
@@ -150,8 +171,8 @@ const connection = {
       onSignal,
       beforeShutdown
     })
-    .listen(port, '0.0.0.0', async () => {
-      logger.info(`🚀  Auth server started at port: http://0.0.0.0:${port}`);
+    .listen(httpConfig.port, async () => {
+      logger.info(`🚀  Auth server started at port: ${httpConfig.url}`);
 
       try {
         await bootstrapAuthServer({
@@ -166,6 +187,7 @@ const connection = {
         process.exit(1);
       }
     });
+
 })().catch((error) => {
   logger.error(util.format('❌  fail to start app.js, %j', error));
   process.exit(1);
