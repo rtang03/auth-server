@@ -2,9 +2,9 @@ name: Create Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
     paths-ignore:
-      - '**.md'
+      - "**.md"
 
 env:
   IMAGE_NAME: auth-server
@@ -66,11 +66,10 @@ jobs:
       - name: Cleanup data volume
         run: sudo rm -rf dev-net/volume
       - name: Create Release
-        uses: docker://antonyurchenko/git-release:latest
+        uses: docker://antonyurchenko/git-release:v4.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRAFT_RELEASE: "false"
           PRE_RELEASE: "true"
           CHANGELOG_FILE: "none"
           ALLOW_EMPTY_CHANGELOG: "true"
-          ALLOW_TAG_PREFIX: "true"
