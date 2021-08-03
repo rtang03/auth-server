@@ -1,11 +1,11 @@
 name: Changelog
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
     types: [closed]
 
   release:
-    types: [ published ]
+    types: [published]
 
 jobs:
   generate_changelog:
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Generate changelog
-        uses: charmixer/auto-changelog-action@v1.1
+        uses: charmixer/auto-changelog-action@v1
         with:
           token: ${{ secrets.CI_TOKEN }}
       - name: Commit files
@@ -25,9 +25,9 @@ jobs:
         run: |
           git config --local user.email "$CI_EMAIL"
           git config --local user.name "$CI_USER"
-          git add CHANGELOG.md && git commit -m 'Updated CHANGELOG.md' && echo ::set-env name=push::1 || echo "No changes to CHANGELOG.md"
+          git add CHANGELOG.md && git commit -m 'Updated CHANGELOG.md' && echo "push=1" >> $GITHUB_ENV || echo "No changes to CHANGELOG.md"
       - name: Push changes
-        if: env.push == 1
+        if: ${{ env.push == 1 }}
         env:
           CI_USER: ${{ secrets.CI_USER }}
           CI_TOKEN: ${{ secrets.CI_TOKEN }}
