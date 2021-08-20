@@ -8,3 +8,4 @@ export * from './typeGuard';
 export * from './catchErrors';
 export * from './createRefreshTokenRepo';
 export * from './generateRefreshToken';
+export * from './httpsUtils';
