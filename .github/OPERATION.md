@@ -1,3 +1,5 @@
+NOTE: this is out-of-dated
+
 ### How to create a release
 
 _step 1: Manually update Changelog_
@@ -16,7 +18,7 @@ This will bump version, create version tag, and push to origin in go.
 
 ```shell script
 # increment version
-yarn version:patch
+npm run version:patch
 ```
 
 Method 1 will update `lerna.json` and related packages' version automatically. Therefore, cannot not run repeatedly 
