@@ -1,12 +1,18 @@
 # Changelog
 
-## [Unreleased](https://github.com/rtang03/auth-server/tree/HEAD)
+## [v0.0.3](https://github.com/rtang03/auth-server/tree/v0.0.3) (2021-08-03)
 
-[Full Changelog](https://github.com/rtang03/auth-server/compare/v0.0.2...HEAD)
+[Full Changelog](https://github.com/rtang03/auth-server/compare/v0.0.2...v0.0.3)
 
 **Implemented enhancements:**
 
 - feat : add https support [\#2](https://github.com/rtang03/auth-server/issues/2)
+
+**Merged pull requests:**
+
+- ci : fixed for create-release.yaml [\#5](https://github.com/rtang03/auth-server/pull/5) ([hkicl-ming](https://github.com/hkicl-ming))
+- ci : fixed in changelog.yaml for support https [\#4](https://github.com/rtang03/auth-server/pull/4) ([hkicl-ming](https://github.com/hkicl-ming))
+- feat: Support HTTPS [\#3](https://github.com/rtang03/auth-server/pull/3) ([hkicl-ming](https://github.com/hkicl-ming))
 
 ## [v0.0.2](https://github.com/rtang03/auth-server/tree/v0.0.2) (2020-12-28)
 
