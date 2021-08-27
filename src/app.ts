@@ -11,7 +11,7 @@ import pg from 'pg';
 import { ApiKey } from './entity/ApiKey';
 import { Client } from './entity/Client';
 import { User } from './entity/User';
-import { bootstrapAuthServer, createHttpServer, getLogger } from './utils';
+import { bootstrapAuthServer, createHttpServer, getLogger, getHttpsServerOption } from './utils';
 
 const logger = getLogger({ name: '[auth] app.js' });
 
@@ -20,12 +20,6 @@ const CERT_PATH_CERT = process.env.CERT_PATH_CERT;
 const AUTH_HOST = (process.env.AUTH_HOST || 'localhost') as string;
 const AUTH_PORT = (process.env.AUTH_PORT || 8080) as number;
 const AUTH_SPORT = (process.env.AUTH_SPORT || 8443) as number;
-
-const httpConfig = {
-  isHttps: CERT_PATH_KEY && CERT_PATH_CERT,
-  port: (CERT_PATH_KEY && CERT_PATH_CERT) ? AUTH_SPORT : AUTH_PORT,
-  url: (CERT_PATH_KEY && CERT_PATH_CERT) ? `https://${AUTH_HOST}:${AUTH_SPORT}` : `http://${AUTH_HOST}:${AUTH_PORT}`,
-};
 
 const ENV = {
   CLIENT_APPLICATION_NAME: process.env.CLIENT_APPLICATION_NAME,
@@ -152,14 +146,11 @@ const connection = {
     setTimeout(resolve, 5000);
   });
 
-  const httpServer: http.Server | https.Server = httpConfig.isHttps ?
-    https.createServer({
-      key: fs.readFileSync(CERT_PATH_KEY),
-      cert: fs.readFileSync(CERT_PATH_CERT),
-    }, server)
-    :
-    http.createServer(server);
+  const options = await getHttpsServerOption({
+    certKeyPath: CERT_PATH_KEY, certPath: CERT_PATH_CERT
+  });
 
+  const httpServer: http.Server | https.Server = options ? https.createServer(options, server) : http.createServer(server);
   terminus
     .createTerminus(httpServer, {
       timeout: 3000,
@@ -171,8 +162,8 @@ const connection = {
       onSignal,
       beforeShutdown
     })
-    .listen(httpConfig.port, async () => {
-      logger.info(`🚀  Auth server started at port: ${httpConfig.url}`);
+    .listen(options ? AUTH_SPORT : AUTH_PORT, async () => {
+      logger.info(`🚀  Auth server started at: ${options ? `https://${AUTH_HOST}:${AUTH_SPORT}` : `http://${AUTH_HOST}:${AUTH_PORT}`}`);
 
       try {
         await bootstrapAuthServer({

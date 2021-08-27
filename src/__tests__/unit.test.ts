@@ -83,13 +83,14 @@ beforeAll(async () => {
     await User.insert(user);
   } catch (e) {
     console.error(e);
+    await new Promise((resolve) => setTimeout(() => resolve(true), 3000));
     process.exit(1);
   }
 });
 
 afterAll(async () => {
   redis.disconnect();
-  return new Promise((done) => setTimeout(() => done(), 2000));
+  return new Promise<void>((done) => setTimeout(() => done(), 2000));
 });
 
 describe('Auth Tests - / and /account', () => {
